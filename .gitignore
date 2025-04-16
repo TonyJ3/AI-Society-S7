@@ -1,0 +1,54 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+myenv/
+.myenv
+env/
+ENV/
+.ENV/
+
+# VS Code settings
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# macOS system files
+.DS_Store
+
+# Environment variables / secrets
+.env
+*.env
+
+# Pip and packaging artifacts
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+*.egg-info/
+dist/
+build/
+
+# Test & coverage tools
+.coverage
+.cache/
+.pytest_cache/
+htmlcov/
+
+# Static analysis tools
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# Other IDEs
+.idea/
