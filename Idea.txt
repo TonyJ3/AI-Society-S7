@@ -1,0 +1,1 @@
+Predicting new artist's song if it's a hit/ popular or not. Give them guidance on how to improve it if it not a hit/ popular.
