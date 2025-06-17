@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Hit Song Predictor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Top Hit Song Predictor</h1>
+  <form id="predictForm">
+    <label>Energy: <input type="number" name="energy" step="0.0000000001" required /></label>
+    <label>Tempo: <input type="number" name="tempo" step="0.0000000001" required /></label>
+    <label>Danceability: <input type="number" name="danceability" step="0.0000000001" required /></label>
+    <label>Loudness: <input type="number" name="loudness" step="0.0000000001" required /></label>
+    <label>Liveness: <input type="number" name="liveness" step="0.0000000001" required /></label>
+    <label>Valence: <input type="number" name="valence" step="0.0000000001" required /></label>
+    <label>Time Signature: <input type="number" name="time_signature" required /></label>
+    <label>Speechiness: <input type="number" name="speechiness" step="0.0000000001" required /></label>
+    <label>Instrumentalness: <input type="number" name="instrumentalness" step="0.0000000001" required /></label>
+    <label>Mode: <input type="number" name="mode" required /></label>
+    <label>Key: <input type="number" name="key" required /></label>
+    <label>Duration (ms): <input type="number" name="duration_ms" required /></label>
+    <label>Acousticness: <input type="number" name="acousticness" step="0.0000000001" required /></label>
+
+    <button type="submit">Predict</button>
+    <div class="result" id="result"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById("predictForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = parseFloat(value); // Convert input to numbers
+    });
+
+    try {
+      const response = await fetch("http://localhost:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      // Show result in a popup
+      alert(`Prediction: ${result.prediction}`);
+
+      // Clears the inputs from the form
+      form.reset();
+
+    } catch (err) {
+      alert("Error making prediction. Is the backend running?");
+    }
+  });
+  </script>
+</body>
+</html>
