@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
-import numpy as np
+import pandas as pd
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load model and scaler
 model = joblib.load("hit_predictor_model.pkl")
@@ -25,14 +26,19 @@ class SongFeatures(BaseModel):
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.post("/predict")
 def predict(features: SongFeatures):
-    # Create input data for array
-    input_data = np.array([[features.energy, features.tempo, features.danceability,
-                            features.loudness, features.liveness, features.valence,
-                            features.time_signature,features.speechiness, 
-                            features.instrumentalness,features.mode,
-                            features.key, features.duration_ms, features.acousticness]])
+
+    # Convert input to a DataFrame with correct column names
+    input_data = pd.DataFrame([features.model_dump()])
     
     # input the data into the scaler
     scaled_input = scaler.transform(input_data)
